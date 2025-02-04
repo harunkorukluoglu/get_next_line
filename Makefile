@@ -1,35 +1,24 @@
-NAME = minitalk
-SERVER = server
-CLIENT = client
-PRINTF = src/printf_atoi.a
-
-CC = gcc
+NAME = printf_atoi.a
+CC = cc
 CFLAGS = -Wall -Wextra -Werror
 
-SRCS_SERVER = server.c
-SRCS_CLIENT = client.c
+SRCS = ft_print.c ft_bghex.c ft_pointer.c ft_smhex.c \
+	   ft_putchar.c ft_putnbr.c ft_putstr.c ft_unnbr.c \
+	   ft_atoi.c
+
+OBJS = $(SRCS:.c=.o)
 
 all: $(NAME)
 
-$(NAME): $(SERVER) $(CLIENT)
-
-$(SERVER): $(PRINTF) $(SRCS_SERVER)
-	$(CC) -no-pie $(CFLAGS) $(SRCS_SERVER) $(PRINTF) -o $(SERVER)
-
-$(CLIENT): $(PRINTF) $(SRCS_CLIENT)
-	$(CC) -no-pie $(CFLAGS) $(SRCS_CLIENT) $(PRINTF) -o $(CLIENT)
-
-$(PRINTF):
-	@make -C src/
-	@make clean src/
+$(NAME): $(OBJS)
+	ar rc $(NAME) $(OBJS)
 
 clean:
-	@rm -f $(SERVER) $(CLIENT)
+	$(RM) $(OBJS)
 
-fclean: clean
-	@make -C src/ fclean
-	@rm -f $(PRINTF)
+fclean:	clean
+	$(RM) $(NAME)
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY : all clean fclean re
